@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<h2>
+  <strong>Name:</strong>
+  <%= @beer.name %>
+</h2>
+
+<p>
+  <strong>Style:</strong>
+  <%= @beer.style %>
+</p>
+
+<p>
+  <strong>Brewery:</strong>
+  <% brewery = Brewery.find @beer.brewery_id %>
+  <%= link_to brewery.name, brewery %>
+</p>
+
+<%= link_to 'Edit', edit_beer_path(@beer) %> |
+<%= link_to 'Back', beers_path %>
