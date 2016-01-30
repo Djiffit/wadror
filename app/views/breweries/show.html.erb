@@ -1,9 +1,9 @@
 <p id="notice"><%= notice %></p>
 
 <h2>
-    <strong>
-      <%= @brewery.name %>
-    </strong>
+  <strong>
+    <%= @brewery.name %>
+  </strong>
 </h2>
 
 <p><i>
@@ -13,11 +13,20 @@
   Number of beers: <%= @brewery.beers.count %>
 </p>
 <% @brewery.beers.to_a %>
-
-
-        <% @brewery.beers.each do |beer| %>
-        <td><%= link_to beer.name, beer %></td>
+<% @brewery.beers.each do |beer| %>
+    <td><%= link_to beer.name, beer %></td>
 <% end %>
+<p>
+<% if @brewery.ratings.count>0 %>
+      Has <%= pluralize(@brewery.ratings.count, 'rating')%>, average of all ratings: <%= @brewery.average_ratings[2] %></p>
+
+      <p>
+      Number of rated beers: <%= @brewery.average_ratings[1] %>, beer average: <%= @brewery.average_ratings[0] %>
+</p>
+    <% else %>
+      This brewery has no rated beers!
+    <% end %>
+</p>
 <br>
 <br>
 
