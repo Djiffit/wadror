@@ -2,7 +2,16 @@
 <p>Number of ratings: <%= @ratings.count %></p>
 <ul>
   <% @ratings.each do |rating| %>
-    <li> <%= rating.to_s %> <%= link_to 'delete', rating_path(rating.id), method: :delete, data: { confirm: 'Are you sure?' } %> </li>
+      <li> <%= rating.to_s %>
+        <% if rating.user == current_user %>
+            <%= rating.user_id %>
+            <%= link_to 'delete', rating_path(rating.id), method: :delete, data: { confirm: 'Are you sure?' } %>
+        <% else if not rating.user_id.nil? %>
+            <%= link_to rating.user.username, user_path(rating.user_id) %>
+        <% end %>
+            <%end%>
+
+      </li>
   <% end %>
 </ul>
 <%= link_to 'Rate a beer', new_rating_path %>

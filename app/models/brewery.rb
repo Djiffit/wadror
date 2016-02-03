@@ -2,6 +2,16 @@ class Brewery < ActiveRecord::Base
   include RatingAverage
   has_many :beers, dependent: :destroy
   has_many :ratings, through: :beers
+  validates :name, length:{minimum: 1}
+  validates :year, numericality: {greater_than_or_equal_to: 1042}
+  validate :validateYear
+
+  def validateYear
+      if year <= Time.now.year and year <= Date.today.year
+      else
+        errors.add(:year, "The year put in is in the future!")
+      end
+  end
 
   def print
     puts name

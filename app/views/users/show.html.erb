@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Username:</strong>
+  <%= @user.username %>
+</p>
+<p>
+  Has made <%= pluralize(@user.ratings.count, 'rating') %>
+  <% if @user.ratings.count > 0 %><br>
+      Rating average: <%= @user.average_rating %>
+  <% end %>
+</p>
+<p>Is part of <%= pluralize(@user.beer_clubs.count, 'beer club')%></p>
+  <% if @user.beer_clubs.count > 0 %>
+    <% @user.beer_clubs.each do |b| %>
+  <td>
+    <%= link_to b.name, beer_club_path(b.id) %>
+  </td>
+        <%end%>
+    <%end%>
+<% if @user.ratings.count > 0 %>
+<table>
+  <thead>
+  <tr>
+    <th>Beer:</th>
+    <th>Rating:</th>
+  </tr>
+  </thead>
+  <tbody>
+    <% @user.ratings.each do |r| %>
+  <tr align="center">
+        <td><%= r.beer %></td>
+        <td><%= r.score %> </td>
+    <%if @user == current_user %>
+        <td><%= link_to 'delete', rating_path(r.id), method: :delete, data: {confirm: 'Are you sure you wish to delete this rating?'} %></td>
+  <%end%>
+        </tr>
+    <% end %>
+  </tbody>
+</table>
+<%end%>
+<%= link_to 'Edit', edit_user_path(@user) %> |
+<%= link_to 'Destroy', @user, method: :delete, data: { confirm: 'Are you sure?' } %> |
+<%= link_to 'Back', users_path %>

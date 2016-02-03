@@ -1,6 +1,7 @@
 class BeersController < ApplicationController
   before_action :set_beer, only: [:show, :edit, :update, :destroy]
 
+
   # GET /beers
   # GET /beers.json
   def index
@@ -14,9 +15,19 @@ class BeersController < ApplicationController
 
   # GET /beers/new
   def new
-    @beer = Beer.new
-    @breweries = Brewery.all
-    @styles = ["Weizen", "Lager", "Pale ale", "IPA", "Porter"]
+    @beer = Beer.new(beer_params)
+
+    respond_to do |format|
+      if @beer.save
+        format.html { redirect_to beers_path, notice: 'Beer was successfully created.' }
+        format.json { render :show, status: :created, location: @beer }
+      else
+        @breweries = Brewery.all
+        @styles = ["Weizen", "Lager", "Pale ale", "IPA", "Porter"]
+        format.html { render :new }
+        format.json { render json: @beer.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   # GET /beers/1/edit
@@ -67,13 +78,14 @@ class BeersController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_beer
-      @beer = Beer.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_beer
+    @beer = Beer.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def beer_params
-      params.require(:beer).permit(:name, :style, :brewery_id)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def beer_params
+    params.require(:beer).permit(:name, :style, :brewery_id)
+  end
 end
+

@@ -1,0 +1,21 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @beer_club.name %>
+</p>
+
+<p>
+  <strong>Founded:</strong>
+  <%= @beer_club.founded %>
+</p>
+<p><% if @beer_club.users.count > 0%>
+  Members of this club: <br>
+  <% @beer_club.users.each do |u| %>
+  <td><%= link_to u.username, user_path(u.id) %> </td>
+  <% end %>
+    <%end %>
+</p>
+
+<%= link_to 'Edit', edit_beer_club_path(@beer_club) %> |
+<%= link_to 'Back', beer_clubs_path %>
