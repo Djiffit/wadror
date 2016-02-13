@@ -1,0 +1,16 @@
+language: ruby
+
+rvm:
+ - 2.3.0
+
+script:
+ - bundle exec rake db:migrate --trace
+ - RAILS_ENV=test bundle exec rake db:migrate --trace
+ - bundle exec rake db:test:prepare
+ - bundle exec rspec -fd spec/
+
+deploy:
+  provider: heroku
+  api_key:
+    secure: "a3546f75-709d-441a-a62c-1191a2c8c927"
+

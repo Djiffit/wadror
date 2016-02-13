@@ -3,12 +3,15 @@ include Helpers
 
 describe "Beer" do
   before :each do
+    FactoryGirl.create(:user)
     sign_in(username:"Pekka", password:"Foobar1")
   end
 
   it "can be added if it is valid" do
     brewery = FactoryGirl.create(:brewery)
+    sign_in(username:"Pekka", password:"Foobar1")
     visit beers_path
+    save_and_open_page
     click_link "New Beer"
     fill_in('beer_name', with:"Karamelli")
     click_button "Create Beer"
