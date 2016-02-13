@@ -3,13 +3,13 @@ class Brewery < ActiveRecord::Base
   has_many :beers, dependent: :destroy
   has_many :ratings, through: :beers
   validates :name, length:{minimum: 1}
-  validates :year, numericality: {greater_than_or_equal_to: 1042}
+  validates :year, numericality: {greater_than_or_equal_to: 1042}, length:{minimum: 4}
   validate :validateYear
 
   def validateYear
-      if year <= Time.now.year and year <= Date.today.year
+      if !year.nil? and year <= Time.now.year and year <= Date.today.year
       else
-        errors.add(:year, "The year put in is in the future!")
+        errors.add(:year, "is incorrect!")
       end
   end
 

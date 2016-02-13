@@ -4,6 +4,14 @@ class Beer < ActiveRecord::Base
   has_many :ratings, dependent: :destroy
   has_many :raters, through: :ratings, source: :user
   validates :name, length:{minimum: 1}
+  validate :validate_style
+
+  def validate_style
+    styles = ["Weizen", "Lager", "Pale ale", "IPA", "Porter"]
+    if !styles.include?(style)
+      errors.add(:style, "beer style has to be defined")
+    end
+  end
 
   def average
     return 0 if ratings.empty?

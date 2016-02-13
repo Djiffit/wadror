@@ -7,8 +7,12 @@
 <p>
   Has made <%= pluralize(@user.ratings.count, 'rating') %>
   <% if @user.ratings.count > 0 %><br>
-      Rating average: <%= @user.average_rating %>
+      Rating average: <%= @user.average_rating %><br>
+      Favorite style: <%= @user.favorite_style %><br>
+      Favorite brewery: <%= @user.favorite_brewery %>
   <% end %>
+  <br>
+
 </p>
 <p>Is part of <%= pluralize(@user.beer_clubs.count, 'beer club')%></p>
   <% if @user.beer_clubs.count > 0 %>
