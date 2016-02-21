@@ -11,6 +11,11 @@ class BeerClubsController < ApplicationController
   # GET /beer_clubs/1
   # GET /beer_clubs/1.json
   def show
+    @userMemberships = current_user.beer_clubs
+    @membership = Membership.new
+    @membership.beer_club = @beer_club
+    @beer_clubs = BeerClub.all.reject{|bc| bc.id != @beer_club.id }
+    @beer_clubs = @beer_clubs.reject{|bc| @userMemberships.include? bc}
   end
 
   # GET /beer_clubs/new

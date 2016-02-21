@@ -32,7 +32,7 @@ class MembershipsController < ApplicationController
     respond_to do |format|
       if @membership.save
         current_user.memberships << @membership
-        format.html { redirect_to @membership, notice: 'Membership was successfully created.' }
+        format.html { redirect_to beer_club_path(@membership.beer_club_id), notice: current_user.username + ', welcome to the club!' }
         format.json { render :show, status: :created, location: @membership }
       else
         format.html { render :new }
@@ -58,9 +58,11 @@ class MembershipsController < ApplicationController
   # DELETE /memberships/1
   # DELETE /memberships/1.json
   def destroy
+    @membership = Membership.find_by(user_id:current_user.id, beer_club_id:params[:membership][:beer_club_id])
     @membership.destroy
     respond_to do |format|
-      format.html { redirect_to memberships_url, notice: 'Membership was successfully destroyed.' }
+      format.html { redirect_to user_path(current_user.id), notice: 'Membership in ' + BeerClub.find_by(id:params[:membership][:beer_club_id]).name +
+      ' beerclub ended.' }
       format.json { head :no_content }
     end
   end
@@ -68,7 +70,7 @@ class MembershipsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_membership
-      @membership = Membership.find(params[:id])
+      @membership = Membership.find(params[:id]) if not params[:id].nil?
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

@@ -16,8 +16,8 @@ class User < ActiveRecord::Base
   def favorite_style
     return nil if ratings.empty?
     rates = ratings
-    styles = ["Weizen", "Lager", "Pale ale", "IPA", "Porter"]
-    return rates[0].beer.style if ratings.count == 1
+    styles = Style.all
+    return rates[0].beer.style.name if ratings.count == 1
     average = 0.0
     paras = favorite_style_iterator(average, rates, styles)
     return paras
@@ -36,7 +36,7 @@ class User < ActiveRecord::Base
         paras = s
       end
     end
-    return paras
+    return paras.name
   end
 
   def favorite_brewery

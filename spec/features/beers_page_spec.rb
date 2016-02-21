@@ -9,6 +9,7 @@ describe "Beer" do
 
   it "can be added if it is valid" do
     brewery = FactoryGirl.create(:brewery)
+    style = FactoryGirl.create(:style)
     sign_in(username:"Pekka", password:"Foobar1")
     visit beers_path
     click_link "New Beer"

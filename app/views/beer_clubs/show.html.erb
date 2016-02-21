@@ -1,8 +1,8 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Name:</strong>
-  <%= @beer_club.name %>
+
+  <h2><%= @beer_club.name %></h2>
 </p>
 
 <p>
@@ -10,12 +10,25 @@
   <%= @beer_club.founded %>
 </p>
 <p><% if @beer_club.users.count > 0%>
-  Members of this club: <br>
-  <% @beer_club.users.each do |u| %>
-  <td><%= link_to u.username, user_path(u.id) %> </td>
+      Members of this club: <br>
+      <% @beer_club.users.each do |u| %>
+          <td><%= link_to u.username, user_path(u.id) %> </td>
+      <% end %>
+  <%end %>
+  </p>
+  <% if current_user %>
+      <%= form_for(@membership) do |f| %>
+          <%= f.hidden_field :beer_club_id %>
+          <% if @beer_clubs.count > 0 %>
+              <%= f.submit value:"Join the club" %>
+              <% else %>
+              <%= form_for(@membership, method: "delete") do |f| %>
+                  <%= f.hidden_field :beer_club_id %>
+                  <%= f.submit value: "end the membership" %>
+              <% end %>
+          <% end %>
+      <% end %>
   <% end %>
-    <%end %>
-</p>
 
-<%= link_to 'Edit', edit_beer_club_path(@beer_club) if current_user%> |
-<%= link_to 'Back', beer_clubs_path %>
+  <%= link_to 'Edit', edit_beer_club_path(@beer_club) if current_user%> |
+  <%= link_to 'Back', beer_clubs_path %>

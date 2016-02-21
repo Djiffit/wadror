@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :styles
   resources :memberships
   resources :beer_clubs
   resources :users
@@ -13,6 +14,6 @@ Rails.application.routes.draw do
   get 'places', to: 'places#index'
   post 'places', to: 'places#search'
   resources :places, only:[:index, :show]
-  get 'googlef30ab9d8c6c8afe6.html', to: 'ratings#google'
   delete 'signout', to: 'sessions#destroy'
+  delete 'memberships', to: 'memberships#destroy'
 end

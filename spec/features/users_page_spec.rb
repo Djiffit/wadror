@@ -7,13 +7,14 @@ describe "User" do
   end
 
   describe "page " do
+    let!(:style){style = FactoryGirl.create(:style)}
     let!(:user){user = FactoryGirl.create(:user, username:"Kookos", password:"Pahkina1", password_confirmation:"Pahkina1")}
-    let!(:beer){beer = FactoryGirl.create(:beer, brewery:FactoryGirl.create(:brewery, name:"Poppoo"))}
+    let!(:beer){beer = FactoryGirl.create(:beer, style:style, brewery:FactoryGirl.create(:brewery, name:"Poppoo"))}
     it "shows favorite style with one rating" do
       sign_in(username:"Kookos", password:"Pahkina1")
       FactoryGirl.create(:rating, score:33,  beer:beer, user:user)
       visit user_path(user)
-      expect(page).to have_content 'Favorite style: Lager'
+      expect(page).to have_content 'Favorite style: IPA'
     end
 
     it "shows favorite style with multiple ratings" do
@@ -21,7 +22,7 @@ describe "User" do
       FactoryGirl.create(:rating, score:50,  beer:beer, user:user)
       FactoryGirl.create(:rating, score:33,  beer:FactoryGirl.create(:beer, name:"pooep"), user:user)
       visit user_path(user)
-      expect(page).to have_content 'Favorite style: Lager'
+      expect(page).to have_content 'Favorite style: IPA'
     end
 
     it "shows favorite brewery with one rating" do

@@ -16,9 +16,6 @@ class RatingsController < ApplicationController
     end
   end
 
-  def google
-    render :googlef30ab9d8c6c8afe6
-  end
 
   def new
     @rating = Rating.new
