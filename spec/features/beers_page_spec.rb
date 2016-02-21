@@ -11,7 +11,6 @@ describe "Beer" do
     brewery = FactoryGirl.create(:brewery)
     sign_in(username:"Pekka", password:"Foobar1")
     visit beers_path
-    save_and_open_page
     click_link "New Beer"
     fill_in('beer_name', with:"Karamelli")
     click_button "Create Beer"

@@ -10,5 +10,9 @@ Rails.application.routes.draw do
   get 'signup', to: 'users#new'
   resource :session, only: [:new, :create, :destroy]
   get 'signin', to: 'sessions#new'
+  get 'places', to: 'places#index'
+  post 'places', to: 'places#search'
+  resources :places, only:[:index, :show]
+  get 'googlef30ab9d8c6c8afe6.html', to: 'ratings#google'
   delete 'signout', to: 'sessions#destroy'
 end
