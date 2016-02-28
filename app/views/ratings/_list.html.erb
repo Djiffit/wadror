@@ -1,0 +1,10 @@
+<table class="table table-hover">
+  <% toplist.each do |top| %>
+      <tr>
+        <td><%= link_to top.name, top %></td>
+        <td><%= top.average %></td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+

@@ -1,19 +1,66 @@
-<h2>List of ratings</h2>
-<p>Number of ratings: <%= @ratings.count %></p>
-<ul>
-  <% @ratings.each do |rating| %>
-      <li> <%= rating.to_s %>
-        <% if rating.user == current_user %>
-            <%= rating.user_id %>
-            <%= link_to 'delete', rating_path(rating.id), method: :delete, data: { confirm: 'Are you sure?' } %>
-        <% else if not rating.user_id.nil? %>
-            <%= link_to rating.user.username, user_path(rating.user_id) %>
-        <% end %>
-            <%end%>
-
-      </li>
+<h1>Rating statistics<br><small>Based on <%= @ratings.count %> ratings</small></h1>
+  <div class="col-sm-4">
+    <h3>Best beers</h3>
+    <%= render 'list', toplist: @top_beers%>
+  </div>
+  <div class="col-sm-4">
+    <h3>Best breweries</h3>
+    <table class="table table-hover">
+      <% @top_breweries.each do |top| %>
+          <tr>
+            <td><%= link_to top.name, top %></td>
+            <td><%= top.average.last %></td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="col-sm-4">
+    <h3>Best styles</h3>
+    <%= render 'list', toplist: @top_styles %>
+  </div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<h3>Most active users</h3>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <td></td>
+      <th>Favorite beer</th>
+      <th>Preferred style</th>
+      <th>Favorite brewery</th>
+      <th>Ratings</th>
+    </tr>
+  </thead>
+  <% @top_raters.each do |top| %>
+      <tr>
+        <td><%= top.username %></td>
+        <td><%= top.favorite_beer %></td>
+        <td><%= top.favorite_style.name %></td>
+        <td><%= top.favorite_brewery.name %></td>
+        <td><%= top.ratings.count %></td>
+      </tr>
   <% end %>
-</ul>
+  </tbody>
+</table>
+<h3>Recent ratings: </h3>
+<list>
+<% @recent.each do |rec| %>
+    <div class="col-sm-6">
+      <ul class="list-group-item" align="center"><%= rec.to_s %> from <%= link_to rec.user.username, rec.user %></ul>
+    </div>
+    <% end %>
+</list>
+<br><br><br> <br>
 <%= link_to 'Rate a beer', new_rating_path %>
 
 

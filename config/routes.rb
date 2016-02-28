@@ -2,8 +2,13 @@ Rails.application.routes.draw do
   resources :styles
   resources :memberships
   resources :beer_clubs
-  resources :users
   resources :beers
+  resources :breweries do
+    post 'toggle_activity', on: :member
+  end
+  resources :users do
+    post 'toggle_ban', on: :member
+  end
   resources :breweries
   root 'breweries#index'
   get 'kaikki_bisset', to: 'beers#index'

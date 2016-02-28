@@ -56,21 +56,25 @@ class StylesController < ApplicationController
   # DELETE /styles/1
   # DELETE /styles/1.json
   def destroy
-    @style.destroy
-    respond_to do |format|
-      format.html { redirect_to styles_url, notice: 'Style was successfully destroyed.' }
-      format.json { head :no_content }
+    if current_user.admin
+      @style.destroy
+      respond_to do |format|
+        format.html { redirect_to styles_url, notice: 'Style was successfully destroyed.' }
+        format.json { head :no_content }
+      end
+    else
+      redirect_to(@style, notice:'Action only allowed for admin users!')
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_style
-      @style = Style.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_style
+    @style = Style.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def style_params
-      params.require(:style).permit(:name, :description)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def style_params
+    params.require(:style).permit(:name, :description)
+  end
 end

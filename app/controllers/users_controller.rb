@@ -7,6 +7,16 @@ class UsersController < ApplicationController
     @users = User.all
   end
 
+  def toggle_ban
+    if current_user.admin
+    user = User.find(params[:id])
+    user.update_attribute :banned, (not user.banned)
+
+    new_status = user.banned? ? "banned" : "not banned"
+    end
+    redirect_to :back, notice:"user state changed to #{new_status}"
+  end
+
   # GET /users/1
   # GET /users/1.json
   def show

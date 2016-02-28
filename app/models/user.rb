@@ -13,59 +13,37 @@ class User < ActiveRecord::Base
     ratings.order(score: :desc).limit(1).first.beer
   end
 
-  def favorite_style
-    return nil if ratings.empty?
-    rates = ratings
-    styles = Style.all
-    return rates[0].beer.style.name if ratings.count == 1
-    average = 0.0
-    paras = favorite_style_iterator(average, rates, styles)
-    return paras
-  end
-
-  def favorite_style_iterator(average, rates, styles)
-    paras = nil
-    styles.each do |s|
-      score = 0.0
-      rates.each do |r|
-        score += r.score if r.beer.style == (s)
-      end
-      score = score/beers.where(style: s).count if score > 0
-      if score > average
-        average = score
-        paras = s
-      end
-    end
-    return paras.name
-  end
-
   def favorite_brewery
     return nil if ratings.empty?
-    breweries = Brewery.all
-    rates = ratings
-    average = 0.0
-    paras = favorite_brewery_iterator(average, breweries, rates)
-    return paras.name
+
+    rated = ratings.map{ |r| r.beer.brewery }.uniq
+    rated.sort_by { |brewery| -rating_of_brewery(brewery) }.first
   end
 
-  def favorite_brewery_iterator(average, breweries, rates)
-    paras = nil
-    breweries.each do |b|
-      score = 0.0
-      count = 0.0
-      rates.each do |r|
-        if r.beer.brewery == b
-          count = count + 1
-          score += r.score
-        end
-      end
-      score = (score/count) if count > 0
-      if score > average
-        paras = b
-        average = score
-      end
-    end
-    return paras
+  def rating_of_brewery(brewery)
+    ratings_of = ratings.select{ |r| r.beer.brewery==brewery }
+    ratings_of.map(&:score).inject(&:+) / ratings_of.count.to_f
+  end
+
+  def favorite_style
+    return nil if ratings.empty?
+
+    rated = ratings.map{ |r| r.beer.style }.uniq
+    rated.sort_by { |style| -rating_of_style(style) }.first
+  end
+
+  def rating_of_style(style)
+    ratings_of = ratings.select{ |r| r.beer.style==style }
+    ratings_of.map(&:score).inject(&:+) / ratings_of.count.to_f
+  end
+
+  def self.top_raters
+    a = Hash.new
+    User.all.each do |u| a[u.id] = u.ratings.count end
+    a = a.sort_by {|k,v| v}.reverse
+    @top_raters = Array.new
+    a.first(3).each {|k,v| (@top_raters << User.find(k))}
+    return @top_raters
   end
 end
 

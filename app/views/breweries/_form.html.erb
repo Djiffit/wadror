@@ -11,14 +11,20 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
+  <div class="field col-xs-6">
+    <%= f.label :name %>
+   <input type="text" class="form-control" id="name" placeholder="Name" <%= f.text_field :name %>
   </div>
-  <div class="field">
+    <br><br><br><br>
+    <div class="field col-xs-6">
     <%= f.label :year %><br>
-    <%= f.number_field :year %>
+    <input type="number" class="form-control" id="year" placeholder="Year" <%= f.number_field :year %>
   </div>
+    <br><br><br><br>
+    <div class="field">
+      <%= f.label :activity %>
+      <%= f.check_box :activity %>
+    </div>
   <div class="actions">
     <%= f.submit %>
   </div>
