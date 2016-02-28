@@ -3,10 +3,14 @@
 </h2>
 <%if @user.banned %>
     <span class="label label-danger">banned</span><br>
-    <%= link_to "unban", toggle_ban_user_url(@user), method: :post, class:"btn btn-success btn-xs" if current_user.admin %>
+    <% if current_user %>
+        <%= link_to "unban", toggle_ban_user_url(@user), method: :post, class:"btn btn-success btn-xs" if current_user.admin %>
+    <% end %>
 <%else%>
     <span class="label label-success">not banned</span><br>
-    <%= link_to "ban", toggle_ban_user_url(@user), method: :post, class:"btn btn-danger btn-xs" if current_user.admin %>
+    <% if current_user %>
+        <%= link_to "ban", toggle_ban_user_url(@user), method: :post, class:"btn btn-danger btn-xs" if current_user.admin %>
+    <%end%>
 <%end%>
 <p>
   Has made <%= pluralize(@user.ratings.count, 'rating') %>
