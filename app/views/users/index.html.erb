@@ -17,7 +17,7 @@
         <td><%= user.ratings.size %></td>
         <td><%= user.favorite_beer %></td>
         <td>
-          <% if current_user.admin and user.banned? %>
+          <% if user.banned? %>
               <span class="label label-info">account frozen</span>
           <% end %>
         </td>
