@@ -6,9 +6,11 @@
                 <h3><%= place.send(:name) %></h3>
                 <p><%= place.send(:street) %></p>
                 <p><%= place.send(:zip) %> <%=session[:previous]%></p>
-                <!--<img src="https://maps.googleapis.com/maps/api/staticmap?center=<%=session[:previous]%>,<%=place.send(:street)%>,<%=place.send(:zip)%>&size=500x400">-->
-                <p>Kartta:</p>
-                <iframe src="<%= place.send(:blogmap)%>" width="500" height="400"</iframe>
+                 <p>Map:</p>
+                <iframe src="<%= place.send(:blogmap)%>" width="500" height="500"</iframe>
+
+                <img src="https://maps.googleapis.com/maps/api/staticmap?center=<%=session[:previous]%>,<%=place.send(:street)%>,<%=place.send(:zip)%>&size=500x400">
+
             <% end %>
             <% end %>
       <% end %>
