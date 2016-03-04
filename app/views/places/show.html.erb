@@ -7,7 +7,7 @@
                 <p><%= place.send(:street) %></p>
                 <p><%= place.send(:zip) %> <%=session[:previous].capitalize%></p>
                  <p>Map:</p>
-                <iframe src="<%= place.blogmap %>" height="500" width="600" </iframe>
+                <iframe src="<%= place.blogmap %>", height="500" width="600"></iframe>
             <% end %>
             <% end %>
       <% end %>
