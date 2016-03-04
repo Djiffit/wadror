@@ -71,7 +71,7 @@ class BreweriesController < ApplicationController
   # POST /breweries.json
   def create
     @brewery = Brewery.new(brewery_params)
-    ["brewerylist-name", "brewerylist-year", "brewerylist-rating", "brewerylist"].each{ |f| expire_fragment(f) }
+    ["brewerylist-name", "brewerylist-year", "brewerylist-rating", "brewerylist-"].each{ |f| expire_fragment(f) }
 
     respond_to do |format|
       if @brewery.save
@@ -87,7 +87,7 @@ class BreweriesController < ApplicationController
   # PATCH/PUT /breweries/1
   # PATCH/PUT /breweries/1.json
   def update
-    ["brewerylist-name", "brewerylist-year", "brewerylist-rating", "brewerylist"].each{ |f| expire_fragment(f) }
+    ["brewerylist-name", "brewerylist-year", "brewerylist-rating", "brewerylist-"].each{ |f| expire_fragment(f) }
 
     respond_to do |format|
       if @brewery.update(brewery_params)
@@ -105,7 +105,7 @@ class BreweriesController < ApplicationController
   def destroy
     if current_user.admin
 
-      ["brewerylist-name", "brewerylist-year", "brewerylist-rating", "brewerylist"].each{ |f| expire_fragment(f) }
+      ["brewerylist-name", "brewerylist-year", "brewerylist-rating", "brewerylist-"].each{ |f| expire_fragment(f) }
       @brewery.destroy
       respond_to do |format|
         format.html { redirect_to breweries_url, notice: 'Brewery was successfully destroyed.' }

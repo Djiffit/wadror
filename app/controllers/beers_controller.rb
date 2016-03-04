@@ -57,7 +57,7 @@ class BeersController < ApplicationController
 
     respond_to do |format|
       if @beer.save
-        ["beerlist-name", "beerlist-brewery", "beerlist-style", "beerlist-rating", "beerlist"].each{ |f| expire_fragment(f) }
+        ["beerlist-name", "beerlist-brewery", "beerlist-style", "beerlist-rating", "beerlist-"].each{ |f| expire_fragment(f) }
         format.html { redirect_to beers_path, notice: 'Beer was successfully created.' }
         format.json { render action: 'show', status: :created, location: @beer }
       else
@@ -78,7 +78,7 @@ class BeersController < ApplicationController
   def update
     respond_to do |format|
       if @beer.update(beer_params)
-        ["beerlist-name", "beerlist-brewery", "beerlist-style", "beerlist-rating", "beerlist"].each{ |f| expire_fragment(f) }
+        ["beerlist-name", "beerlist-brewery", "beerlist-style", "beerlist-rating", "beerlist-"].each{ |f| expire_fragment(f) }
         format.html { redirect_to @beer, notice: 'Beer was successfully updated.' }
         format.json { render :show, status: :ok, location: @beer }
       else
@@ -94,7 +94,7 @@ class BeersController < ApplicationController
     if current_user.admin
       @beer.destroy
       respond_to do |format|
-        ["beerlist-name", "beerlist-brewery", "beerlist-style", "beerlist-rating", "beerlist"].each{ |f| expire_fragment(f) }
+        ["beerlist-name", "beerlist-brewery", "beerlist-style", "beerlist-rating", "beerlist-"].each{ |f| expire_fragment(f) }
         format.html { redirect_to beers_url, notice: 'Beer was successfully destroyed.' }
         format.json { head :no_content }
       end
