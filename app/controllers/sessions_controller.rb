@@ -16,7 +16,8 @@ class SessionsController < ApplicationController
         redirect_to user_path(user.id), notice: "Welcome back m80"
       end
     else
-      user = User.create(username:env["omniauth.auth"].info.nickname, github:true)
+      password = (0...8).map { (65 + rand(26)).chr }.join+"1"
+      user = User.create(username:env["omniauth.auth"].info.nickname, github:true, password:password, password_confirmation:password)
       session[:user_id] = user.id
       session[:github] = env["omniauth.auth"].info
       redirect_to user_path(user.id), notice: "Welcome to the most acclaimed beer rating community!"
