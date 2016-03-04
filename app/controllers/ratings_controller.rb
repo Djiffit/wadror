@@ -23,6 +23,8 @@ class RatingsController < ApplicationController
   def create
     @rating = Rating.new params.require(:rating).permit(:score, :beer_id)
     if @rating.save
+      ["beerlist-name", "beerlist-brewery", "beerlist-style", "beerlist-rating", "beerlist-"].each{ |f| expire_fragment(f) }
+      ["brewerylist-name", "brewerylist-year", "brewerylist-rating", "brewerylist-"].each{ |f| expire_fragment(f) }
       current_user.ratings << @rating
       redirect_to user_path current_user
     else
@@ -40,6 +42,8 @@ class RatingsController < ApplicationController
   def destroy
     rating = Rating.find params[:id]
     rating.delete if current_user == rating.user
+    ["brewerylist-name", "brewerylist-year", "brewerylist-rating", "brewerylist-"].each{ |f| expire_fragment(f) }
+    ["beerlist-name", "beerlist-brewery", "beerlist-style", "beerlist-rating", "beerlist-"].each{ |f| expire_fragment(f) }
     redirect_to :back
   end
 end

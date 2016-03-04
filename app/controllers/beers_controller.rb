@@ -58,6 +58,7 @@ class BeersController < ApplicationController
     respond_to do |format|
       if @beer.save
         ["beerlist-name", "beerlist-brewery", "beerlist-style", "beerlist-rating", "beerlist-"].each{ |f| expire_fragment(f) }
+        ["brewerylist-name", "brewerylist-year", "brewerylist-rating", "brewerylist-"].each{ |f| expire_fragment(f) }
         format.html { redirect_to beers_path, notice: 'Beer was successfully created.' }
         format.json { render action: 'show', status: :created, location: @beer }
       else
@@ -94,6 +95,7 @@ class BeersController < ApplicationController
     if current_user.admin
       @beer.destroy
       respond_to do |format|
+        ["brewerylist-name", "brewerylist-year", "brewerylist-rating", "brewerylist-"].each{ |f| expire_fragment(f) }
         ["beerlist-name", "beerlist-brewery", "beerlist-style", "beerlist-rating", "beerlist-"].each{ |f| expire_fragment(f) }
         format.html { redirect_to beers_url, notice: 'Beer was successfully destroyed.' }
         format.json { head :no_content }
