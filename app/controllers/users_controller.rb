@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = User.all
+    @users = User.includes(:ratings, :beers).all
   end
 
   def toggle_ban
@@ -20,6 +20,9 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
+    all = Membership.all.where(user_id: @user.id)
+    @active = all.select{|m| m.status == true}
+    @pending = all.reject{|m| m.status == true}
   end
 
   # GET /users/new

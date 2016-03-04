@@ -1,3 +1,4 @@
+<% cache @brewery.cache_key, skip_digest: true do %>
 <h3>
   <%= @brewery.name %>
 
@@ -29,6 +30,7 @@
       This brewery has no rated beers!
     <% end %>
 </p>
+  <% end %>
 <br>
 <br>
 

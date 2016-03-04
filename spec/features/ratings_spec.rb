@@ -26,20 +26,11 @@ describe "Rating" do
     expect(beer1.average_rating).to eq(15.0)
   end
 
-  it "is visible on all ratings page" do
-    FactoryGirl.create(:rating, beer:beer1)
-    FactoryGirl.create(:rating2, beer:beer2)
-    visit ratings_path
-    expect(page).to have_content 'iso 3'
-    expect(page).to have_content '20'
-    expect(page).to have_content 'Karhu'
-    expect(page).to have_content '10'
-  end
-
   it "is removed with delete button" do
     FactoryGirl.create(:rating, beer:beer1, user:user)
     FactoryGirl.create(:rating2, beer:beer2, user:user)
-    visit ratings_path
+    visit user_path(user)
+    save_and_open_page
     page.first(:link, "delete").click
     expect(page).not_to have_content 'iso 3'
     expect(page).not_to have_content '10'

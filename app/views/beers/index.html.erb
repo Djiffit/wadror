@@ -2,13 +2,16 @@
 
 <h2>Listing Beers</h2>
 
+
+<% cache "beerlist-#{@order}", skip_digest: true do %>
+
 <table class="table table-hover table-bordered">
   <thead>
-    <tr align="center">
-      <th align="center">Name</th>
-      <th align="center">Rating</th>
-      <th align="center">Style</th>
-      <th align="center">Brewery</th>
+    <tr>
+      <th> <%= link_to 'Name', beers_path(order:"name") %> </th>
+      <th> <%= link_to 'Rating', beers_path(order:"rating") %></th>
+      <th> <%= link_to 'Style', beers_path(order:"style") %> </th>
+      <th> <%= link_to 'Brewery', beers_path(order:"brewery") %> </th>
 
     </tr>
   </thead>
@@ -17,7 +20,7 @@
     <% @beers.each do |beer| %>
       <% byebug if beer.brewery.nil? %>
       <% brewery = beer.brewery %>
-      <tr align="center">
+      <tr>
         <td><%= link_to beer.name, beer %></td>
         <td><%= beer.average_rating %></td>
         <td><%= beer.style.name %></td>
@@ -26,6 +29,7 @@
   </tbody>
 </table>
 
+<% end %>
 <br>
 <%= link_to 'List of breweries', breweries_path %>
 <br>

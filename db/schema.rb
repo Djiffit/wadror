@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160227234043) do
+ActiveRecord::Schema.define(version: 20160304175952) do
 
   create_table "beer_clubs", force: :cascade do |t|
     t.string   "name"
@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 20160227234043) do
     t.integer  "beer_club_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.boolean  "status"
   end
 
   create_table "ratings", force: :cascade do |t|
@@ -65,6 +66,7 @@ ActiveRecord::Schema.define(version: 20160227234043) do
     t.string   "password_digest"
     t.boolean  "admin"
     t.boolean  "banned"
+    t.boolean  "github"
   end
 
 end

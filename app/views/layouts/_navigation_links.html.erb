@@ -18,7 +18,9 @@
           <li><%= link_to 'Signout', signout_path, method: :delete %></li>
         </ul>
       </li>
+
 <% else %>
     <li><%= link_to 'Signin', signin_path, class: 'navbar-brand'  %></li>
     <li><%= link_to 'Signup', signup_path, class: 'navbar-brand'  %></li>
+    <li><%= link_to 'Github login', 'auth/github', class: 'navbar-brand' %></li>
 <% end %>

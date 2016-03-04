@@ -1,14 +1,18 @@
 <p id="notice"><%= notice %></p>
 
-<h2>Listing breweries<br><small>Number of active breweries: <%= @active_breweries.count %> out of <%= @active_breweries.count + @retired_breweries.count %></small></h2>
-<h3>Active breweries</h3>
-<%= render 'list', breweries: @active_breweries %>
+<% cache "brewerylist-#{@order}", skip_digest: true do %>
 
-<h3>Retired breweries</h3>
+    <h2>Listing breweries<br><small>Number of active breweries: <%= @active_breweries.count %> out of <%= @active_breweries.count + @retired_breweries.count %></small></h2>
+    <h3>Active breweries</h3>
+    <%= render 'list', breweries: @active_breweries %>
 
-<%= render 'list', breweries: @retired_breweries %>
-<br>
+    <h3>Retired breweries</h3>
 
-<p> Number of breweries: <%= @breweries.count %> </p>
+    <%= render 'list', breweries: @retired_breweries %>
+    <br>
+
+    <p> Number of breweries: <%= @breweries.count %> </p>
+<% end %>
+
 <%= link_to 'List of beers', beers_path, class:"btn btn-info btn-xs" %>
 <%= link_to 'New Brewery', new_brewery_path, class:"btn btn-info btn-xs"  %>

@@ -1,28 +1,30 @@
 <p id="notice"><%= notice %></p>
 
-<h2>
-  <strong>Name:</strong>
-  <%= @beer.name %>
-</h2>
+    <% cache @beer.cache_key, skip_digest: true do %>
+    <h2>
+      <strong>Name:</strong>
+      <%= @beer.name %>
+    </h2>
 
-<p>
-  <strong>Style:</strong>
-  <%= @beer.style.name %>
-</p>
+    <p>
+      <strong>Style:</strong>
+      <%= @beer.style.name %>
+    </p>
 
-<p>
-  <strong>Brewery:</strong>
-  <% brewery = Brewery.find @beer.brewery_id %>
-  <%= link_to brewery.name, brewery %>
-</p>
+    <p>
+      <strong>Brewery:</strong>
+      <% brewery = Brewery.find @beer.brewery_id %>
+      <%= link_to brewery.name, brewery %>
+    </p>
 
-<p>
-  <% if @beer.ratings.empty? %>
-      Nobody has rated this beer yet!
-  <% else %>
-      Has <%= pluralize(@beer.ratings.count, 'rating') %>, average rating: <%= @beer.average_rating %>
-  <% end %>
-</p>
+    <p>
+      <% if @beer.ratings.empty? %>
+          Nobody has rated this beer yet!
+      <% else %>
+          Has <%= pluralize(@beer.ratings.count, 'rating') %>, average rating: <%= @beer.average_rating %>
+      <% end %>
+    </p>
+<% end %>
 
 <% if current_user %>
 

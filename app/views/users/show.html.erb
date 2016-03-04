@@ -1,56 +1,92 @@
-<h2>
-  <%= @user.username %>
-</h2>
-<%if @user.banned %>
-    <span class="label label-danger">banned</span><br>
-    <% if current_user %>
-        <%= link_to "unban", toggle_ban_user_url(@user), method: :post, class:"btn btn-success btn-xs" if current_user.admin %>
+<div class="row">
+  <div id="imagebox" class="col-sm-2 img-circle ">
+    <% if @user.github %>
+        <img class="img-rounded pull-right" src="<%= session[:github]["image"] %>" >
+    <% else %>
+        <img class="img-rounded " src="http://i.imgur.com/A2ELjVn.jpg">
     <% end %>
-<%else%>
-    <span class="label label-success">not banned</span><br>
-    <% if current_user %>
-        <%= link_to "ban", toggle_ban_user_url(@user), method: :post, class:"btn btn-danger btn-xs" if current_user.admin %>
-    <%end%>
-<%end%>
+  </div>
+  <h2 class="col-sm-3">
+    <%= @user.username %>
+  </h2>
+
+</div>
+<div class="btn-group">
+  <%if @user.banned %>
+      <button class="btn btn-xs btn-danger">Banned</button>
+      <% if current_user %>
+          <%= link_to "Unban", toggle_ban_user_url(@user), method: :post, class:"btn btn-xs btn-success"if current_user.admin %>
+      <% end %>
+  <%else%>
+      <button class="btn btn-xs btn-success">Not Banned</button>
+      <% if current_user %>
+          <%= link_to "Ban", toggle_ban_user_url(@user), method: :post, class:"btn btn-xs btn-warning" if current_user.admin %>
+      <%end%>
+  <%end%>
+</div>
+<br><br>
 <p>
   Has made <%= pluralize(@user.ratings.count, 'rating') %>
   <% if @user.ratings.count > 0 %><br>
       Rating average: <%= @user.average_rating %><br>
-      Favorite style: <%= @user.favorite_style.name %><br>
-      Favorite brewery: <%= @user.favorite_brewery.name %>
-  <% end %>
-  <br>
 
-</p>
-<p>Is part of <%= pluralize(@user.beer_clubs.count, 'beer club')%></p>
-<% if @user.beer_clubs.count > 0 %>
-    <% @user.beer_clubs.each do |b| %>
-        <td>
-          <%= link_to b.name, beer_club_path(b.id) %>
-        </td>
-    <%end%>
-<%end%>
-<% if @user.ratings.count > 0 %>
-    <table class="table table-hover table-bordered">
-      <thead>
-      <tr>
-        <th class="col-md-4">Beer:</th>
-        <th class="col-md-1">Rating:</th>
-      </tr>
-      </thead>
-      <tbody>
-      <% @user.ratings.each do |r| %>
-          <tr>
-            <td><%= r.beer %></td>
-            <td><%= r.score %> </td>
-            <%if @user == current_user %>
-                <td><%= link_to 'delete', rating_path(r.id), method: :delete, data: {confirm: 'Are you sure you wish to delete this rating?'} %></td>
-            <%end%>
-          </tr>
-      <% end %>
-      </tbody>
-    </table>
-<%end%>
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Destroy', @user, method: :delete, data: { confirm: 'Are you sure?' } %> |
-<%= link_to 'Back', users_path %>
+      <% if @user.ratings.count > 0 %>
+          <table class="table table-hover">
+            <thead>
+            <tr>
+
+              <th class="col-md-3">Beer:</th>
+              <th class="col-md-1">Rating:</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% @user.ratings.each do |r| %>
+                <tr>
+                  <td><%= r.beer %></td>
+                  <td ><%= r.score %> </td>
+                  <%if @user == current_user %>
+                      <td><%= link_to 'delete', rating_path(r.id), method: :delete, data: {confirm: 'Are you sure you wish to delete this rating?'}, class:"btn btn-xs btn-danger"%></td>
+
+                  <%end%>
+                </tr>
+            <% end %>
+            </tbody>
+          </table>
+      <%end%>
+      <div class="panel panel-default">
+        <div class="panel-heading"><strong>Favorites:</strong></div>
+        <div class="panel-body">
+          <Strong>Style:</Strong> <%= link_to @user.favorite_style.name, style_path(@user.favorite_style) %><br>
+          <Strong>Brewery:</Strong> <%= link_to @user.favorite_brewery.name, brewery_path(@user.favorite_brewery) %><br>
+          <Strong>Beer:</Strong> <%= link_to @user.favorite_beer.name, beer_path(@user.favorite_beer) %>
+        </div></div>
+  <% end %>
+
+  </p>
+  <p>Is part of <%= pluralize(@active.count, 'beer club')%></p>
+  <% if @active.count > 0 %>
+      <p><strong>Approved memberships:</strong></p>
+      <ul class="list-group">
+        <% @active.each do |b| %>
+            <li align="center", class="list-group-item col-md-3">
+              <%= link_to b.beer_club.name, beer_club_path(b.beer_club_id) %>
+            </li>
+        <%end%>
+      </ul>
+  <%end%>
+  <br><br>
+  <p>Has applied for a membership to <%= pluralize(@pending.count, 'beer club')%></p>
+  <% if @pending.count > 0 %>
+      <p><strong>Pending membership applications:</strong></p>
+      <ul class="list-group">
+        <% @pending.each do |b| %>
+            <li align="center", class="list-group-item col-md-3">
+              <%= link_to b.beer_club.name, beer_club_path(b.beer_club_id) %>
+            </li>
+        <%end%>
+      </ul>
+  <%end%>
+  <br><br>
+  <%= link_to 'Edit', edit_user_path(@user) %> |
+  <%= link_to 'Destroy', @user, method: :delete, data: { confirm: 'Are you sure?' } %> |
+  <%= link_to 'Back', users_path %>

@@ -2,12 +2,22 @@
 class RatingsController < ApplicationController
 
   def index
-    @top_beers = Beer.top(3)
-    @top_breweries = Brewery.top(3)
-    @top_raters = User.top_raters
-    @recent = Rating.recent
-    @ratings = Rating.all
-    @top_styles = Style.top
+    make_sure_these_things_are_in_cache
+    @top_beers = Rails.cache.read "beer top 3"
+    @top_breweries = Rails.cache.read "brewery top 3"
+    @top_raters = Rails.cache.read "top raters"
+    @recent = Rails.cache.read "recent ratings"
+    @ratings = Rails.cache.read "rating all"
+    @top_styles = Rails.cache.read "style top"
+  end
+
+  def make_sure_these_things_are_in_cache
+    Rails.cache.write("beer top 3", Beer.top(3), timeToLive: 1.day) if not Rails.cache.exist?("beer top 3")
+    Rails.cache.write("brewery top 3", Brewery.top(3), timeToLive: 1.day) if not Rails.cache.exist?("brewery top 3")
+    Rails.cache.write("top raters", User.top_raters, timeToLive: 1.day) if not Rails.cache.exist?("top raters")
+    Rails.cache.write("recent ratings", Rating.recent, timeToLive: 1.day) if not Rails.cache.exist?("recent ratings")
+    Rails.cache.write("rating all", Rating.all, timeToLive: 1.day) if not Rails.cache.exist?("rating all")
+    Rails.cache.write("style top", Style.top, timeToLive: 1.day) if not Rails.cache.exist?("style top")
   end
 
   def create

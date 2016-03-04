@@ -32,7 +32,7 @@ class MembershipsController < ApplicationController
     respond_to do |format|
       if @membership.save
         current_user.memberships << @membership
-        format.html { redirect_to beer_club_path(@membership.beer_club_id), notice: current_user.username + ', welcome to the club!' }
+        format.html { redirect_to beer_club_path(@membership.beer_club_id), notice: current_user.username + ', your application has been sent!' }
         format.json { render :show, status: :created, location: @membership }
       else
         format.html { render :new }
@@ -55,6 +55,13 @@ class MembershipsController < ApplicationController
     end
   end
 
+  def approve_member
+    tila = Membership.find(params[:id])
+    tila.status = true
+    tila.save
+    redirect_to (:back)
+  end
+
   # DELETE /memberships/1
   # DELETE /memberships/1.json
   def destroy
@@ -75,6 +82,6 @@ class MembershipsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def membership_params
-      params.require(:membership).permit(:user_id, :beer_club_id)
+      params.require(:membership).permit(:user_id, :beer_club_id, :status)
     end
 end

@@ -39,7 +39,9 @@ RSpec.describe User, type: :model do
     end
 
     it "is the style of the only rated beer" do
-      beer = create_beer_with_rating(user, 20)
+      style = FactoryGirl.create(:style)
+      beer = FactoryGirl.create(:beer, style: style)
+      rating = FactoryGirl.create(:rating, beer: beer)
       expect(user.favorite_style).to eq("IPA")
     end
 

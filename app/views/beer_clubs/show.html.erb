@@ -2,29 +2,47 @@
 
 <p>
 
-  <h2><%= @beer_club.name %></h2>
+<h2><%= @beer_club.name %></h2>
 </p>
 
 <p>
-  <strong>Founded:</strong>
+Founded:
   <%= @beer_club.founded %>
 </p>
-<p><% if @beer_club.users.count > 0%>
-      Members of this club: <br>
-      <% @beer_club.users.each do |u| %>
-          <td><%= link_to u.username, user_path(u.id) %> </td>
+<p>
+
+  <% if @approvedmembers.count > 0%>
+      <h3>Approved members of this club:</h3> <br>
+      <ul class="list-group" align="center">
+      <% @approvedmembers.each do |u| %>
+          <li class="list-group-item col-sm-2"><%= link_to u.user.username, user_path(u.user_id) %> </li>
       <% end %>
   <%end %>
+  </ul>
   </p>
+<br><br>
+  <p>
+  </p>
+  <ul class="list-group">
+    <% if @pendingmembers.count > 0 %>
+        <h3>Membership pending approval:</h3>
+        <% @pendingmembers.each do |p| %>
+            <li class="list-group-item col-sm-2" align="center"><%= link_to p.user.username, user_path(p.user_id) %> <% if @member %>
+                  <%= link_to 'Approve', approve_member_membership_path(p), method: :post, class:"label label-success" %><% end %></li>
+        <% end %>
+    <% end %>
+  </ul>
+  <br><br>
   <% if current_user %>
       <%= form_for(@membership) do |f| %>
           <%= f.hidden_field :beer_club_id %>
           <% if @beer_clubs.count > 0 %>
-              <%= f.submit value:"Join the club" %>
-              <% else %>
+              <%= f.submit value:"Send application", class:"btn btn-success btn-xs" %>
+          <% else %>
               <%= form_for(@membership, method: "delete") do |f| %>
                   <%= f.hidden_field :beer_club_id %>
-                  <%= f.submit value: "end the membership" %>
+                <div class="btn-group">
+                  <%= f.submit value: "Leave club", class:"btn btn-xs btn-info" %>
               <% end %>
           <% end %>
       <% end %>
@@ -34,3 +52,4 @@
   <div class="btn-group">
     <%= edit_and_destroy_buttons(@beer_club) %>
   </div>
+</div>

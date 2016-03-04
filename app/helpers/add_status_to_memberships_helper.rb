@@ -1,0 +1,2 @@
+module AddStatusToMembershipsHelper
+end

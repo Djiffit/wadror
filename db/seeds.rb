@@ -1,17 +1,32 @@
-b1 = Brewery.create name:"Koff", year:1897
-b2 = Brewery.create name:"Malmgard", year:2001
-b3 = Brewery.create name:"Weihenstephaner", year:1042
+users = 200           # jos koneesi on hidas, riittää esim 100
+breweries = 100       # jos koneesi on hidas, riittää esim 50
+beers_in_brewery = 40
+ratings_per_user = 30
 
-s1 = Style.create name:"Weizen", description:"Mieletöntä karjaisuo no usu neo ko ppawer"
-s2 = Style.create name:"Lager", description:"Soppa syö soppa vie kukaan ei mahda mitään vaikka makaroonit on"
-s3 = Style.create name:"Pale ale", description:"Hemmetti testien korjaamisessa tulee kestämään"
-s4 = Style.create name:"IPA", description:"Hei hei ippaa ippaa jopaienen jokkaa"
-s5 = Style.create name:"Porter", description:"Nistien suosimaa masteri korkeloa"
+(1..users).each do |i|
+  User.create! username:"user_#{i}", password:"Passwd1", password_confirmation:"Passwd1"
+end
 
-b1.beers.create name:"Iso 3", style:"Lager"
-b1.beers.create name:"Karhu", style:"Lager"
-b1.beers.create name:"Tuplahumala", style:"Lager"
-b2.beers.create name:"Huvila Pale Ale", style:"Pale Ale"
-b2.beers.create name:"X Porter", style:"Porter"
-b3.beers.create name:"Hefeweizen", style:"Weizen"
-b3.beers.create name:"Helles", style:"Lager"
+(1..breweries).each do |i|
+  Brewery.create! name:"Brewery_#{i}", year:1900, activity:true
+end
+
+bulk = Style.create! name:"Bulk", description:"cheap, not much taste"
+
+Brewery.all.each do |b|
+  n = rand(beers_in_brewery)
+  (1..n).each do |i|
+    beer = Beer.create! name:"Beer #{b.id} -- #{i}", style:bulk
+    b.beers << beer
+  end
+end
+
+User.all.each do |u|
+  n = rand(ratings_per_user)
+  beers = Beer.all.shuffle
+  (1..n).each do |i|
+    r = Rating.new score:(1+rand(50))
+    beers[i].ratings << r
+    u.ratings << r
+  end
+end

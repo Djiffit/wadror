@@ -5,6 +5,8 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   helper_method :current_user
+  helper_method :previous_search
+  helper_method :previous_sort
 
   def current_user
     return nil if session[:user_id].nil?
@@ -13,6 +15,10 @@ class ApplicationController < ActionController::Base
 
   def previous_search
     return session[:previous]
+  end
+
+  def previous_sort
+    return session[:sort]
   end
 
   def ensure_that_signed_in

@@ -1,4 +1,4 @@
-<h1>Rating statistics<br><small>Based on <%= @ratings.count %> ratings</small></h1>
+<h1>Rating statistics<br><small>Based on <%= @ratings.count %> ratings, updates every 24 hours</small></h1>
   <div class="col-sm-4">
     <h3>Best beers</h3>
     <%= render 'list', toplist: @top_beers%>
@@ -34,7 +34,7 @@
 <table class="table table-hover">
   <thead>
     <tr>
-      <td></td>
+      <td>Name</td>
       <th>Favorite beer</th>
       <th>Preferred style</th>
       <th>Favorite brewery</th>
@@ -42,6 +42,7 @@
     </tr>
   </thead>
   <% @top_raters.each do |top| %>
+      <% if not top.nil? %>
       <tr>
         <td><%= top.username %></td>
         <td><%= top.favorite_beer %></td>
@@ -49,6 +50,7 @@
         <td><%= top.favorite_brewery.name %></td>
         <td><%= top.ratings.count %></td>
       </tr>
+      <% end %>
   <% end %>
   </tbody>
 </table>
