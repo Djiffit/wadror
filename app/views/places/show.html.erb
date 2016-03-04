@@ -5,14 +5,12 @@
             <% Place.rendered_fields.each do |f| if place.send(f) == params[:id]%>
                 <h3><%= place.send(:name) %></h3>
                 <p><%= place.send(:street) %></p>
-                <p><%= place.send(:zip) %> <%=session[:previous]%></p>
+                <p><%= place.send(:zip) %> <%=session[:previous].capitalize%></p>
                  <p>Map:</p>
-                <iframe src="<%= place.send(:blogmap)%>" width="500" height="500"</iframe>
-
-                <img src="https://maps.googleapis.com/maps/api/staticmap?center=<%=session[:previous]%>,<%=place.send(:street)%>,<%=place.send(:zip)%>&size=500x400">
-
+                <iframe src="<%= place.blogmap %>" height="500" width="600" </iframe>
             <% end %>
             <% end %>
       <% end %>
 <% end %>
+
 
