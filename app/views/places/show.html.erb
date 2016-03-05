@@ -3,11 +3,11 @@
 <% if @places %>
       <% @places.each do |place| %>
             <% Place.rendered_fields.each do |f| if place.send(f) == params[:id]%>
-                <h3><%= place.send(:name) %></h3>
-                <p><%= place.send(:street) %></p>
-                <p><%= place.send(:zip) %> <%=session[:previous].capitalize%></p>
+                <h3><%= place.name %></h3>
+                <p><%= place.street %></p>
+                <p><%= place.zip %> <%=session[:previous].capitalize%></p>
                  <p>Map:</p>
-                <iframe src="<%= place.blogmap %>", height="500" width="600"></iframe>
+                <iframe src="<%= place.blogmap %>", height="500" width="600">
             <% end %>
             <% end %>
       <% end %>
