@@ -8,8 +8,8 @@ class SessionsController < ApplicationController
     user = User.find_by(username:env["omniauth.auth"].info.nickname)
     if (user)
       if (user.banned)
-      end
-      if (user.github)
+        redirect_to users_path, notice:"Account banned, contact adminstrators for assistance!"
+      else
         session[:user_id] = user.id
         session[:github] = env["omniauth.auth"].info
         redirect_to user_path(user.id), notice: "Welcome back m80"
