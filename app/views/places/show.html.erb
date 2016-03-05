@@ -1,16 +1,19 @@
 <p id="notice"><%= notice %></p>
 
 <% if @places %>
-      <% @places.each do |place| %>
-            <% Place.rendered_fields.each do |f| if place.send(f) == params[:id]%>
+    <% @places.each do |place| %>
+        <% Place.rendered_fields.each do |f| if place.send(f) == params[:id]%>
                 <h3><%= place.name %></h3>
                 <p><%= place.street %></p>
                 <p><%= place.zip %> <%=session[:previous].capitalize%></p>
-                 <p>Map:</p>
-                <iframe src="<%= place.blogmap %>", height="500" width="600">
+                <a href="<%= place.blogmap %>">Map:</a>
+                <br>
+                <div>
+                  <iframe src="<%= place.blogmap %>"></iframe>
+                </div>
             <% end %>
-            <% end %>
-      <% end %>
+        <% end %>
+    <% end %>
 <% end %>
 
 
