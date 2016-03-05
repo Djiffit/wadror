@@ -6,50 +6,51 @@
 </p>
 
 <p>
-Founded:
+  Founded:
   <%= @beer_club.founded %>
 </p>
 <p>
 
   <% if @approvedmembers.count > 0%>
-      <h3>Approved members of this club:</h3> <br>
-      <ul class="list-group" align="center">
+    <h3>Approved members of this club:</h3> <br>
+    <ul class="list-group" align="center">
       <% @approvedmembers.each do |u| %>
           <li class="list-group-item col-sm-2"><%= link_to u.user.username, user_path(u.user_id) %> </li>
       <% end %>
-  <%end %>
-  </ul>
-  </p>
+    
+<%end %>
+</ul>
+</p>
 <br><br>
-  <p>
-  </p>
-  <ul class="list-group">
-    <% if @pendingmembers.count > 0 %>
-        <h3>Membership pending approval:</h3>
-        <% @pendingmembers.each do |p| %>
-            <li class="list-group-item col-sm-2" align="center"><%= link_to p.user.username, user_path(p.user_id) %> <% if @member %>
-                  <%= link_to 'Approve', approve_member_membership_path(p), method: :post, class:"label label-success" %><% end %></li>
-        <% end %>
-    <% end %>
-  </ul>
-  <br><br>
-  <% if current_user %>
-      <%= form_for(@membership) do |f| %>
-          <%= f.hidden_field :beer_club_id %>
-          <% if @beer_clubs.count > 0 %>
-              <%= f.submit value:"Send application", class:"btn btn-success btn-xs" %>
-          <% else %>
-              <%= form_for(@membership, method: "delete") do |f| %>
-                  <%= f.hidden_field :beer_club_id %>
-                <div class="btn-group">
-                  <%= f.submit value: "Leave club", class:"btn btn-xs btn-info" %>
-              <% end %>
-          <% end %>
+<p>
+</p>
+<ul class="list-group">
+  <% if @pendingmembers.count > 0 %>
+      <h3>Membership pending approval:</h3>
+      <% @pendingmembers.each do |p| %>
+          <li class="list-group-item col-sm-2" align="center"><%= link_to p.user.username, user_path(p.user_id) %> <% if @member %>
+                <%= link_to 'Approve', approve_member_membership_path(p), method: :post, class:"label label-success" %><% end %></li>
       <% end %>
   <% end %>
+</ul>
+<br><br>
+<% if current_user %>
+    <%= form_for(@membership) do |f| %>
+        <%= f.hidden_field :beer_club_id %>
+        <% if @beer_clubs.count > 0 %>
+            <%= f.submit value:"Send application", class:"btn btn-success btn-xs" %>
+        <% else %>
+            <%= form_for(@membership, method: "delete") do |f| %>
+                <%= f.hidden_field :beer_club_id %>
+                <div class="btn-group">
+                  <%= f.submit value: "Leave club", class:"btn btn-xs btn-info" %>
+            <% end %>
+        <% end %>
+    <% end %>
+<% end %>
 
 
-  <div class="btn-group">
-    <%= edit_and_destroy_buttons(@beer_club) %>
-  </div>
+<div class="btn-group">
+  <%= edit_and_destroy_buttons(@beer_club) %>
+</div>
 </div>

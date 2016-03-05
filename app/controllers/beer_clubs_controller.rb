@@ -11,14 +11,15 @@ class BeerClubsController < ApplicationController
   # GET /beer_clubs/1
   # GET /beer_clubs/1.json
   def show
+    @beer_clubs = BeerClub.all.reject{|bc| bc.id != @beer_club.id }
+    @approvedmembers = @beer_club.memberships.select{|m| m.status == true}
+    @pendingmembers = @beer_club.memberships.reject{|m| m.status == true}
     if current_user
       @userMemberships = current_user.beer_clubs
+
+      @beer_clubs = @beer_clubs.reject{|bc| @userMemberships.include? bc}
       @membership = Membership.new
       @membership.beer_club = @beer_club
-      @beer_clubs = BeerClub.all.reject{|bc| bc.id != @beer_club.id }
-      @beer_clubs = @beer_clubs.reject{|bc| @userMemberships.include? bc}
-      @approvedmembers = @beer_club.memberships.select{|m| m.status == true}
-      @pendingmembers = @beer_club.memberships.reject{|m| m.status == true}
       @member = false
       @approvedmembers.each do |a| @member = true if a.user_id == current_user.id end
     end

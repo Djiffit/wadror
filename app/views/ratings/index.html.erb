@@ -44,10 +44,10 @@
   <% @top_raters.each do |top| %>
       <% if not top.nil? %>
       <tr>
-        <td><%= top.username %></td>
-        <td><%= top.favorite_beer %></td>
-        <td><%= top.favorite_style.name %></td>
-        <td><%= top.favorite_brewery.name %></td>
+        <td><%= top.username if not top.username.nil? %></td>
+        <td><%= top.favorite_beer if not top.favorite_beer.nil? %></td>
+        <td><%= top.favorite_style.name if not top.favorite_style.nil? %></td>
+        <td><%= top.favorite_brewery.name if not favorite_brewery.nil? %></td>
         <td><%= top.ratings.count %></td>
       </tr>
       <% end %>
